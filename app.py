@@ -51,7 +51,7 @@ def login():
     options.add_argument('window-size=1920x1080')
 
     try:
-        browser = webdriver.Chrome("./chromedriver/windows/" + driverVersion() + ".exe", options=options)
+        browser = webdriver.Chrome("./chromedriver/chromedriver.exe", options=options)
     except WebDriverException:
         print("[-] 크롬 브라우저 버전이 올바르지 않습니다.")
         sys.exit(0)
