@@ -51,13 +51,13 @@ def login():
     options.add_argument('window-size=1920x1080')
 
     try:
-        browser = webdriver.Chrome("./chromedriver/chromedriver.exe", options=options)
+        browser = webdriver.Chrome("./chromedriver/chromedriver", options=options)
     except WebDriverException:
         print("[-] 크롬 브라우저 버전이 올바르지 않습니다.")
         sys.exit(0)
     browser.get("https://hcs.eduro.go.kr/#/loginHome")
 
-    browser.find_elements_by_xpath("//*[@id=\"btnConfirm2\"]")[0].click()
+    browser.find_elements_by_xpath("//*[@id=\"btnConfirm2\"]")[0].click() 
     print("[+] 자가진단 사이트 접속 완료!")
     
     schoolSelect(browser)
@@ -133,9 +133,9 @@ def schoolSelect(browser):
     browser.find_elements_by_xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[3]/td[1]/input")[0].send_keys(getData("school"))
     browser.find_elements_by_xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[3]/td[2]/button")[0].click()
 
-    time.sleep(0.5)
+    time.sleep(1)
     try:
-        browser.find_elements_by_xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/ul/li/p/a")[0].click()
+        browser.find_elements_by_xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/ul/li/a/p/a/em")[0].click()
     except UnexpectedAlertPresentException:
         print("\n[-] 학교를 검색할 수 없습니다. 지역과 학교명을 다시 확인해주세요.")
         sys.exit(0)
@@ -146,7 +146,7 @@ def schoolSelect(browser):
 
 def inputName(browser):
     print("[+] 인적사항 입력 ... ", end="")
-    time.sleep(0.5)
+    time.sleep(1)
     browser.find_elements_by_xpath("//*[@id=\"WriteInfoForm\"]/table/tbody/tr[2]/td/input")[0].send_keys(getData("name"))
     browser.find_elements_by_xpath("//*[@id=\"WriteInfoForm\"]/table/tbody/tr[3]/td/input")[0].send_keys(getData("birth"))
     browser.find_elements_by_xpath("//*[@id=\"btnConfirm\"]")[0].click()
@@ -156,16 +156,16 @@ def inputName(browser):
 
 def inputPassword(browser):
     print("[+] 비밀번호 입력 ... ", end="")
-    time.sleep(0.5)
+    time.sleep(1)
     try:
         browser.find_elements_by_xpath("//*[@id=\"WriteInfoForm\"]/table/tbody/tr/td/input")[0].send_keys(getData("pw"))
     except UnexpectedAlertPresentException:
         print("\n[-] 참여자를 확인할 수 없습니다. 이름과 생년월일을 확인해주세요.")
         sys.exit(0)
     browser.find_elements_by_xpath("//*[@id=\"btnConfirm\"]")[0].click()
-    time.sleep(1)
+    time.sleep(3)
     try:
-        browser.find_elements_by_xpath("//*[@id=\"container\"]/div[2]/section[2]/div[2]/ul/li/a/span[1]")[0].click()
+        browser.find_elements_by_xpath("//*[@id=\"container\"]/div/section[2]/div[2]/ul/li/a/em")[0].click()
     except UnexpectedAlertPresentException:
         print("\n[-] 비밀번호가 맞지 않습니다.")
         sys.exit(0)
@@ -174,11 +174,11 @@ def inputPassword(browser):
     takeSurvey(browser)
 
 def takeSurvey(browser):
-    time.sleep(1)
-    for i in range(1,6):
-        browser.find_elements_by_xpath("//*[@id=\"container\"]/div[2]/div/div[2]/div[2]/dl[" + str(i) + "]/dd/ul/li[1]/label")[0].click()
+    time.sleep(3)
+    browser.find_elements_by_xpath("//*[@id=\"survey_q1a1\"]")[0].click()
+    browser.find_elements_by_xpath("//*[@id=\"survey_q2a1\"]")[0].click()
+    browser.find_elements_by_xpath("//*[@id=\"survey_q3a1\"]")[0].click()
     browser.find_elements_by_xpath("//*[@id=\"btnConfirm\"]")[0].click()
-
     print("\n[+] 설문 제출 완료! ✔")
 
 if __name__ == "__main__":
